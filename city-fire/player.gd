@@ -1,5 +1,5 @@
 class_name player
-extends CharacterBody2D
+extends RigidBody2D
 
 @export var wheel_base := 64
 @export var engine_power := 900
@@ -17,21 +17,22 @@ var max_speed_reverse := 250
 @onready var right_wheel: Sprite2D = $front_wheel/right
 
 
+func _ready() -> void:
+	gravity_scale = 0
+
+
 func _physics_process(delta: float) -> void:
-	acceleration = Vector2.ZERO
 	get_input()
-	apply_friction(delta)
-	calculate_steering(delta)
-	velocity += acceleration * delta
-	move_and_slide()
+	#apply_friction(delta)
 
 
 func apply_friction(delta):
-	if acceleration == Vector2.ZERO and velocity.length() < 50:
-		velocity = Vector2.ZERO
-	var friction_force = velocity * friction * delta
-	var drag_force = velocity * velocity.length() * drag * delta
-	acceleration += drag_force + friction_force
+	return
+	#if acceleration == Vector2.ZERO and velocity.length() < 50:
+	#	velocity = Vector2.ZERO
+	#var friction_force = velocity * friction * delta
+	#var drag_force = velocity * velocity.length() * drag * delta
+	#acceleration += drag_force + friction_force
 
 
 func get_input() -> void:
@@ -40,20 +41,21 @@ func get_input() -> void:
 	left_wheel.rotation = steer_direction
 	right_wheel.rotation = steer_direction
 	if Input.is_action_pressed("accelerate"):
-		acceleration = transform.x * engine_power
+		apply_central_force(Vector2.from_angle(steer_direction) * engine_power)
 	if Input.is_action_pressed("braking"):
 		acceleration = transform.x * braking
 
 
 func calculate_steering(delta):
-	var rear_wheel := position - transform.x * wheel_base / 2.0
-	var front_wheel := position + transform.x * wheel_base / 2.0
-	rear_wheel += velocity * delta
-	front_wheel += velocity.rotated(steer_direction) * delta
-	var new_heading := (front_wheel - rear_wheel).normalized()
-	var direction := new_heading.dot(velocity.normalized())
-	if direction > 0:
-		velocity = new_heading * velocity.length()
-	else:
-		velocity = -new_heading * min(velocity.length(), max_speed_reverse)
-	rotation = new_heading.angle()
+	return
+	#var rear_wheel := position - transform.x * wheel_base / 2.0
+	#var front_wheel := position + transform.x * wheel_base / 2.0
+	#rear_wheel += velocity * delta
+	#front_wheel += velocity.rotated(steer_direction) * delta
+	#var new_heading := (front_wheel - rear_wheel).normalized()
+	#var direction := new_heading.dot(velocity.normalized())
+	#if direction > 0:
+	#	velocity = new_heading * velocity.length()
+	#else:
+	#	velocity = -new_heading * min(velocity.length(), max_speed_reverse)
+	#rotation = new_heading.angle()
