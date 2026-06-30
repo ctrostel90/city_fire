@@ -1,4 +1,4 @@
-class_name player
+class_name TillerController
 extends CharacterBody2D
 
 @export var wheel_base := 64
@@ -35,21 +35,21 @@ func apply_friction(delta):
 
 
 func get_input() -> void:
-	var dir := Input.get_axis("steer_left", "steer_right") # / 2.0 + 0.5
+	var dir := Input.get_axis("tiller_left", "tiller_right") # / 2.0 + 0.5
 	steer_direction = dir * deg_to_rad(steering_angle)
 	left_wheel.rotation = steer_direction
 	right_wheel.rotation = steer_direction
-	if Input.is_action_pressed("accelerate"):
+	if Input.is_action_pressed("accelerate_tiller"):
 		acceleration = transform.x * engine_power
-	if Input.is_action_pressed("braking"):
+	if Input.is_action_pressed("braking_tiller"):
 		acceleration = transform.x * braking
 
 
 func calculate_steering(delta):
 	var rear_wheel := position - transform.x * wheel_base / 2.0
 	var front_wheel := position + transform.x * wheel_base / 2.0
-	rear_wheel += velocity * delta
-	front_wheel += velocity.rotated(steer_direction) * delta
+	rear_wheel += velocity.rotated(steer_direction) * delta
+	front_wheel += velocity * delta
 	var new_heading := (front_wheel - rear_wheel).normalized()
 	var direction := new_heading.dot(velocity.normalized())
 	if direction > 0:
