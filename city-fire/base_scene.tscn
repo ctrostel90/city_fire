@@ -1,62 +1,8 @@
 [gd_scene format=3 uid="uid://c7m6pvuoateg3"]
 
-[ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="1_57xsf"]
-[ext_resource type="Script" uid="uid://dvcji5evwjpio" path="res://player.gd" id="1_qcxwf"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcxwf"]
-size = Vector2(64, 32)
+[ext_resource type="PackedScene" uid="uid://cg8qdvo5wpnbs" path="res://fire_truck.tscn" id="1_57xsf"]
 
 [node name="Node2D" type="Node2D" unique_id=901550048]
 
-[node name="Engine" type="RigidBody2D" parent="." unique_id=1065534151]
-position = Vector2(457, 192)
-gravity_scale = 0.0
-linear_damp = 3.0
-script = ExtResource("1_qcxwf")
-
-[node name="Sprite2D" type="Sprite2D" parent="Engine" unique_id=1055915655]
-scale = Vector2(0.5, 0.25)
-texture = ExtResource("1_57xsf")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Engine" unique_id=1844930579]
-shape = SubResource("RectangleShape2D_qcxwf")
-
-[node name="front_wheel" type="Node2D" parent="Engine" unique_id=556929761]
-
-[node name="left" type="Sprite2D" parent="Engine/front_wheel" unique_id=424815089]
-position = Vector2(32, -16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("1_57xsf")
-
-[node name="right" type="Sprite2D" parent="Engine/front_wheel" unique_id=888332555]
-position = Vector2(32, 16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("1_57xsf")
-
-[node name="Tiller" type="RigidBody2D" parent="." unique_id=497465693]
-position = Vector2(382, 192)
-gravity_scale = 0.0
-linear_damp = 3.0
-
-[node name="Sprite2D" type="Sprite2D" parent="Tiller" unique_id=844457224]
-scale = Vector2(0.5, 0.25)
-texture = ExtResource("1_57xsf")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tiller" unique_id=72078872]
-shape = SubResource("RectangleShape2D_qcxwf")
-
-[node name="front_wheel" type="Node2D" parent="Tiller" unique_id=1596056449]
-
-[node name="left" type="Sprite2D" parent="Tiller/front_wheel" unique_id=347808771]
-position = Vector2(-32, -16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("1_57xsf")
-
-[node name="right" type="Sprite2D" parent="Tiller/front_wheel" unique_id=254810393]
-position = Vector2(-32, 16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("1_57xsf")
-
-[node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=897865390]
-node_a = NodePath("../Engine")
-node_b = NodePath("../Tiller")
+[node name="FireTruck" parent="." unique_id=803625039 instance=ExtResource("1_57xsf")]
+position = Vector2(329, 154)

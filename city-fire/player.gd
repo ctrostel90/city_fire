@@ -1,9 +1,6 @@
 class_name player
 extends RigidBody2D
 
-@onready var left_wheel: Sprite2D = $front_wheel/left
-@onready var right_wheel: Sprite2D = $front_wheel/right
-
 ## --- Tuning ---
 @export var engine_power: float = 800.0
 @export var brake_force: float = 600.0
@@ -12,13 +9,16 @@ extends RigidBody2D
 @export var min_speed_to_turn: float = 20.0 # prevents spinning in place
 @export var device_id: int = 0 # 0 = player 1, 1 = player 2
 
-var steer_angle: float = 0.0
+var max_steer_angle: float = 25.0
+
+@onready var left_wheel: Sprite2D = $front_wheel/left
+@onready var right_wheel: Sprite2D = $front_wheel/right
 
 
 func _physics_process(delta: float) -> void:
-	var throttle = Input.get_action_strength("accelerate", false)
-	var brake = Input.get_action_strength("braking", false)
-	var steer = Input.get_axis("steer_left", "steer_right")
+	var throttle := Input.get_action_strength("accelerate", false)
+	var brake := Input.get_action_strength("braking", false)
+	var steer := Input.get_axis("steer_left", "steer_right")
 
 	# --- Drive force ---
 	# Push in the direction the body is currently facing
@@ -31,6 +31,9 @@ func _physics_process(delta: float) -> void:
 	if brake > 0.0:
 		apply_central_force(-linear_velocity.normalized() * brake * brake_force)
 
+	# rotation of sprites
+	left_wheel.rotation_degrees = steer * max_steer_angle
+	right_wheel.rotation_degrees = steer * max_steer_angle
 	var speed = linear_velocity.length()
 	var speed_factor = clamp(speed / 100.0, 0.0, 1.0)
 	if speed > min_speed_to_turn:
