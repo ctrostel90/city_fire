@@ -33,5 +33,30 @@ position = Vector2(32, 16)
 scale = Vector2(0.2, 0.1)
 texture = ExtResource("1_57xsf")
 
+[node name="Tiller" type="RigidBody2D" parent="." unique_id=497465693]
+position = Vector2(382, 192)
+gravity_scale = 0.0
+linear_damp = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Tiller" unique_id=844457224]
+scale = Vector2(0.5, 0.25)
+texture = ExtResource("1_57xsf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tiller" unique_id=72078872]
+shape = SubResource("RectangleShape2D_qcxwf")
+
+[node name="front_wheel" type="Node2D" parent="Tiller" unique_id=1596056449]
+
+[node name="left" type="Sprite2D" parent="Tiller/front_wheel" unique_id=347808771]
+position = Vector2(-32, -16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("1_57xsf")
+
+[node name="right" type="Sprite2D" parent="Tiller/front_wheel" unique_id=254810393]
+position = Vector2(-32, 16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("1_57xsf")
+
 [node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=897865390]
 node_a = NodePath("../Engine")
+node_b = NodePath("../Tiller")

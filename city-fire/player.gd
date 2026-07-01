@@ -1,61 +1,41 @@
 class_name player
 extends RigidBody2D
 
-@export var wheel_base := 64
-@export var engine_power := 900
-@export var steering_limits := Vector2(-45, 45)
-
-var steering_angle := 15.0
-var acceleration := Vector2.ZERO
-var friction := -55
-var drag = -0.06
-var steer_direction
-var braking := -450.0
-var max_speed_reverse := 250
-
 @onready var left_wheel: Sprite2D = $front_wheel/left
 @onready var right_wheel: Sprite2D = $front_wheel/right
 
+## --- Tuning ---
+@export var engine_power: float = 800.0
+@export var brake_force: float = 600.0
+@export var turn_speed: float = 2.0 # radians/sec
+@export var friction: float = 0.95 # velocity damping (0-1)
+@export var min_speed_to_turn: float = 20.0 # prevents spinning in place
+@export var device_id: int = 0 # 0 = player 1, 1 = player 2
 
-func _ready() -> void:
-	gravity_scale = 0
+var steer_angle: float = 0.0
 
 
 func _physics_process(delta: float) -> void:
-	get_input()
-	#apply_friction(delta)
+	var throttle = Input.get_action_strength("accelerate", false)
+	var brake = Input.get_action_strength("braking", false)
+	var steer = Input.get_axis("steer_left", "steer_right")
 
+	# --- Drive force ---
+	# Push in the direction the body is currently facing
+	var facing = transform.x
+	if throttle > 0.0:
+		apply_central_force(facing * throttle * engine_power)
 
-func apply_friction(delta):
-	return
-	#if acceleration == Vector2.ZERO and velocity.length() < 50:
-	#	velocity = Vector2.ZERO
-	#var friction_force = velocity * friction * delta
-	#var drag_force = velocity * velocity.length() * drag * delta
-	#acceleration += drag_force + friction_force
+	# --- Braking ---
+	# Oppose current velocity directly
+	if brake > 0.0:
+		apply_central_force(-linear_velocity.normalized() * brake * brake_force)
 
-
-func get_input() -> void:
-	var dir := Input.get_axis("steer_left", "steer_right") # / 2.0 + 0.5
-	steer_direction = dir * deg_to_rad(steering_angle)
-	left_wheel.rotation = steer_direction
-	right_wheel.rotation = steer_direction
-	if Input.is_action_pressed("accelerate"):
-		apply_central_force(Vector2.from_angle(steer_direction) * engine_power)
-	if Input.is_action_pressed("braking"):
-		acceleration = transform.x * braking
-
-
-func calculate_steering(delta):
-	return
-	#var rear_wheel := position - transform.x * wheel_base / 2.0
-	#var front_wheel := position + transform.x * wheel_base / 2.0
-	#rear_wheel += velocity * delta
-	#front_wheel += velocity.rotated(steer_direction) * delta
-	#var new_heading := (front_wheel - rear_wheel).normalized()
-	#var direction := new_heading.dot(velocity.normalized())
-	#if direction > 0:
-	#	velocity = new_heading * velocity.length()
-	#else:
-	#	velocity = -new_heading * min(velocity.length(), max_speed_reverse)
-	#rotation = new_heading.angle()
+	var speed = linear_velocity.length()
+	var speed_factor = clamp(speed / 100.0, 0.0, 1.0)
+	if speed > min_speed_to_turn:
+		angular_velocity = steer * turn_speed * speed_factor
+	# --- Friction ---
+	# Bleed off lateral (sideways) velocity to prevent infinite sliding
+	var lateral = transform.y * linear_velocity.dot(transform.y)
+	linear_velocity -= lateral * (1.0 - friction)
