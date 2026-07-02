@@ -1,4 +1,4 @@
-class_name TillerController
+class_name Tiller
 extends RigidBody2D
 
 ## --- Tuning ---
@@ -16,7 +16,7 @@ var max_steer_angle: float = 25.0
 
 
 func _physics_process(delta: float) -> void:
-	var steer := Input.get_axis("tiller_left", "tiller_right")
+	var steer := Input.get_axis("tiller_right", "tiller_left")
 
 	# rotation of sprites
 	left_wheel.rotation_degrees = steer * max_steer_angle
@@ -28,4 +28,4 @@ func _physics_process(delta: float) -> void:
 	# --- Friction ---
 	# Bleed off lateral (sideways) velocity to prevent infinite sliding
 	var lateral = transform.y * linear_velocity.dot(transform.y)
-	linear_velocity -= lateral * (1.0 - friction)
+	# linear_velocity -= lateral * (1.0 - friction)

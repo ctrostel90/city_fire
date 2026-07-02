@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cg8qdvo5wpnbs"]
 
-[ext_resource type="Script" uid="uid://dvcji5evwjpio" path="res://player.gd" id="1_d45l8"]
+[ext_resource type="Script" uid="uid://byjwspeojied0" path="res://engine_controller.gd" id="1_jk3by"]
 [ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="2_jk3by"]
-[ext_resource type="Script" uid="uid://b1juudn88lti8" path="res://tiller.gd" id="3_jk3by"]
+[ext_resource type="Script" uid="uid://cnc2hphfi8kev" path="res://tiller_controll.gd" id="3_v1ysr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d45l8"]
 size = Vector2(64, 32)
@@ -16,11 +16,14 @@ size = Vector2(128, 32)
 node_a = NodePath("../Engine")
 node_b = NodePath("../Tiller")
 
-[node name="Engine" type="RigidBody2D" parent="." unique_id=1008412961]
+[node name="Engine" type="RigidBody2D" parent="." unique_id=1008412961 node_paths=PackedStringArray("mesh_fl", "mesh_fr")]
 position = Vector2(40, 0)
 gravity_scale = 0.0
 linear_damp = 3.0
-script = ExtResource("1_d45l8")
+script = ExtResource("1_jk3by")
+brake_force = 600.0
+mesh_fl = NodePath("front_wheel/left")
+mesh_fr = NodePath("front_wheel/right")
 
 [node name="Sprite2D" type="Sprite2D" parent="Engine" unique_id=68373541]
 scale = Vector2(0.5, 0.25)
@@ -41,12 +44,14 @@ position = Vector2(32, 16)
 scale = Vector2(0.2, 0.1)
 texture = ExtResource("2_jk3by")
 
-[node name="Tiller" type="RigidBody2D" parent="." unique_id=1732658900]
+[node name="Tiller" type="RigidBody2D" parent="." unique_id=1732658900 node_paths=PackedStringArray("sprite_rl", "sprite_rr")]
 position = Vector2(-80, 0)
 mass = 2.0
 gravity_scale = 0.0
 linear_damp = 3.0
-script = ExtResource("3_jk3by")
+script = ExtResource("3_v1ysr")
+sprite_rl = NodePath("rear_wheel/left")
+sprite_rr = NodePath("rear_wheel/right")
 
 [node name="Sprite2D" type="Sprite2D" parent="Tiller" unique_id=2069428789]
 scale = Vector2(1, 0.25)

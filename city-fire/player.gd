@@ -2,7 +2,7 @@ class_name player
 extends RigidBody2D
 
 ## --- Tuning ---
-@export var engine_power: float = 800.0
+@export var engine_power: float = 1200.0
 @export var brake_force: float = 600.0
 @export var turn_speed: float = 2.0 # radians/sec
 @export var friction: float = 0.95 # velocity damping (0-1)
