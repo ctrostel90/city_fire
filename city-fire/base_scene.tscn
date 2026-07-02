@@ -6,3 +6,6 @@
 
 [node name="FireTruck" parent="." unique_id=803625039 instance=ExtResource("1_57xsf")]
 position = Vector2(329, 154)
+
+[node name="Camera2D" type="Camera2D" parent="FireTruck" unique_id=1062867792]
+zoom = Vector2(0.5, 0.5)

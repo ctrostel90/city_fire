@@ -14,16 +14,22 @@ size = Vector2(128, 32)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=390390607]
 node_a = NodePath("../Engine")
-node_b = NodePath("../Tiller")
 
-[node name="Engine" type="RigidBody2D" parent="." unique_id=1008412961 node_paths=PackedStringArray("mesh_fl", "mesh_fr")]
+[node name="Engine" type="RigidBody2D" parent="." unique_id=1008412961 node_paths=PackedStringArray("sprite_fl", "sprite_fr")]
 position = Vector2(40, 0)
+mass = 5.0
 gravity_scale = 0.0
 linear_damp = 3.0
 script = ExtResource("1_jk3by")
+engine_force = 4000.0
 brake_force = 600.0
-mesh_fl = NodePath("front_wheel/left")
-mesh_fr = NodePath("front_wheel/right")
+max_steer_angle = 35.0
+steer_speed = 5.0
+turn_torque = 8000.0
+lateral_grip = 200.0
+sprite_fl = NodePath("front_wheel/left")
+sprite_fr = NodePath("front_wheel/right")
+align_strength = 400.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Engine" unique_id=68373541]
 scale = Vector2(0.5, 0.25)

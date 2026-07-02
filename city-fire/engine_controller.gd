@@ -25,7 +25,7 @@ extends RigidBody2D
 @export var max_steer_angle: float = 30.0 # degrees, for front-wheel visuals only
 @export var steer_speed: float = 4.0 # visual angle interpolation speed
 @export var turn_torque: float = 4000.0 # yaw torque strength while moving
-
+@export var steering_speed_scale : float = 100.0
 @export_group("Grip")
 @export var lateral_grip: float = 10.0 # how strongly sideways sliding is cancelled (0 = ice, high = glued)
 
@@ -33,11 +33,18 @@ extends RigidBody2D
 @export var sprite_fl: Node2D
 @export var sprite_fr: Node2D
 
+
+@export_group("Self-Alignment")
+@export var angular_damping: float = 3.0     # bleeds off leftover spin
+@export var align_strength: float = 800.0    # weathervanes heading toward velocity direction
+@export var align_min_speed: float = 20.0    # only align above this speed, so parking-lot turns aren't fought
+
 var _current_steer_angle: float = 0.0
 
 
 func _physics_process(delta: float) -> void:
 	_handle_steering(delta)
+	_apply_self_alignment(delta)
 	_handle_throttle()
 	_apply_lateral_grip(delta)
 
@@ -51,15 +58,23 @@ func _handle_steering(delta: float) -> void:
 	var target_angle := steer_input * max_steer_angle
 	_current_steer_angle = move_toward(_current_steer_angle, target_angle, steer_speed * max_steer_angle * delta)
 
-	if sprite_fl:
-		sprite_fl.rotation = deg_to_rad(_current_steer_angle)
-	if sprite_fr:
-		sprite_fr.rotation = deg_to_rad(_current_steer_angle)
+	sprite_fl.rotation = deg_to_rad(_current_steer_angle)
+	sprite_fr.rotation = deg_to_rad(_current_steer_angle)
 
 	var forward_speed := linear_velocity.dot(_forward_dir())
 	var steer_ratio := _current_steer_angle / max_steer_angle
-	var speed_sign := signf(forward_speed) if abs(forward_speed) > 0.1 else 1.0
-	apply_torque(steer_ratio * turn_torque * speed_sign)
+	# var speed_sign := signf(forward_speed) if abs(forward_speed) > 0.1 else 1.0
+	var speed_sign := 1.0
+	var speed_factor := clampf(linear_velocity.length()/ steering_speed_scale,0.0,1.0)
+	apply_torque(steer_ratio * turn_torque * speed_factor)
+
+func _apply_self_alignment(delta: float) -> void:
+	apply_torque(-angular_velocity * angular_damping)
+	var speed := linear_velocity.length()
+	if speed > align_min_speed:
+		var travel_dir := linear_velocity.normalized()
+		var angle_diff := transform.x.angle_to(travel_dir)
+		apply_torque(angle_diff * align_strength)
 
 
 func _handle_throttle() -> void:
@@ -77,7 +92,7 @@ func _handle_throttle() -> void:
 
 
 func _apply_lateral_grip(delta: float) -> void:
-	var forward_dir := _forward_dir()
+	var forward_dir := transform.x
 	var right_dir := forward_dir.orthogonal()
 	var lateral_speed := linear_velocity.dot(right_dir)
 	# Cancel the sideways component so the truck doesn't skate around like a puck.
