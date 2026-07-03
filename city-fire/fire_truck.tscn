@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://byjwspeojied0" path="res://engine_controller.gd" id="1_jk3by"]
 [ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="2_jk3by"]
 [ext_resource type="Script" uid="uid://cnc2hphfi8kev" path="res://tiller_controll.gd" id="3_v1ysr"]
+[ext_resource type="Script" uid="uid://dpxsu3odvei2u" path="res://utility/engine_debug_ui.gd" id="4_v1ysr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d45l8"]
 size = Vector2(64, 32)
@@ -29,6 +30,7 @@ turn_torque = 8000.0
 lateral_grip = 200.0
 sprite_fl = NodePath("front_wheel/left")
 sprite_fr = NodePath("front_wheel/right")
+angular_damping = 30.0
 align_strength = 400.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Engine" unique_id=68373541]
@@ -77,3 +79,31 @@ texture = ExtResource("2_jk3by")
 position = Vector2(-64, 16)
 scale = Vector2(0.2, 0.1)
 texture = ExtResource("2_jk3by")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1073210494 node_paths=PackedStringArray("engine")]
+script = ExtResource("4_v1ysr")
+engine = NodePath("../Engine")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=445928272]
+offset_right = 259.0
+offset_bottom = 409.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1168803679]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=2044720690]
+layout_mode = 2
+text = "AngularVel:"
+
+[node name="AngVel" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=2135244345]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1963954271]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1790068277]
+layout_mode = 2
+text = "SteerAngle:"
+
+[node name="SteerAngle" type="Label" parent="CanvasLayer/VBoxContainer/HBoxContainer2" unique_id=1353319436]
+layout_mode = 2

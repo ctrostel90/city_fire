@@ -25,7 +25,7 @@ extends RigidBody2D
 @export var max_steer_angle: float = 30.0 # degrees, for front-wheel visuals only
 @export var steer_speed: float = 4.0 # visual angle interpolation speed
 @export var turn_torque: float = 4000.0 # yaw torque strength while moving
-@export var steering_speed_scale : float = 100.0
+@export var steering_speed_scale: float = 100.0
 @export_group("Grip")
 @export var lateral_grip: float = 10.0 # how strongly sideways sliding is cancelled (0 = ice, high = glued)
 
@@ -33,11 +33,10 @@ extends RigidBody2D
 @export var sprite_fl: Node2D
 @export var sprite_fr: Node2D
 
-
 @export_group("Self-Alignment")
-@export var angular_damping: float = 3.0     # bleeds off leftover spin
-@export var align_strength: float = 800.0    # weathervanes heading toward velocity direction
-@export var align_min_speed: float = 20.0    # only align above this speed, so parking-lot turns aren't fought
+@export var angular_damping: float = 3.0 # bleeds off leftover spin
+@export var align_strength: float = 800.0 # weathervanes heading toward velocity direction
+@export var align_min_speed: float = 20.0 # only align above this speed, so parking-lot turns aren't fought
 
 var _current_steer_angle: float = 0.0
 
@@ -65,10 +64,11 @@ func _handle_steering(delta: float) -> void:
 	var steer_ratio := _current_steer_angle / max_steer_angle
 	# var speed_sign := signf(forward_speed) if abs(forward_speed) > 0.1 else 1.0
 	var speed_sign := 1.0
-	var speed_factor := clampf(linear_velocity.length()/ steering_speed_scale,0.0,1.0)
+	var speed_factor := clampf(linear_velocity.length() / steering_speed_scale, 0.0, 1.0)
 	apply_torque(steer_ratio * turn_torque * speed_factor)
 
-func _apply_self_alignment(delta: float) -> void:
+
+func _apply_self_alignment(_delta: float) -> void:
 	apply_torque(-angular_velocity * angular_damping)
 	var speed := linear_velocity.length()
 	if speed > align_min_speed:
