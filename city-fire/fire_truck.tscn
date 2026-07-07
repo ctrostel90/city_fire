@@ -1,88 +1,21 @@
 [gd_scene format=3 uid="uid://cg8qdvo5wpnbs"]
 
-[ext_resource type="Script" uid="uid://byjwspeojied0" path="res://engine_controller.gd" id="1_jk3by"]
-[ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="2_jk3by"]
-[ext_resource type="Script" uid="uid://cnc2hphfi8kev" path="res://tiller_controll.gd" id="3_v1ysr"]
+[ext_resource type="PackedScene" uid="uid://bwhvr0ub78ubp" path="res://front_wheel_drive_car.tscn" id="1_v1ysr"]
+[ext_resource type="PackedScene" uid="uid://bgryf8rfkhje3" path="res://tiller.tscn" id="2_jk3by"]
 [ext_resource type="Script" uid="uid://dpxsu3odvei2u" path="res://utility/engine_debug_ui.gd" id="4_v1ysr"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d45l8"]
-size = Vector2(64, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcxwf"]
-size = Vector2(128, 32)
 
 [node name="Node" type="Node2D" unique_id=1685104663]
 
 [node name="PinJoint2D" type="PinJoint2D" parent="." unique_id=390390607]
-node_a = NodePath("../Engine")
 
-[node name="Engine" type="RigidBody2D" parent="." unique_id=1008412961 node_paths=PackedStringArray("sprite_fl", "sprite_fr")]
+[node name="Engine" parent="." unique_id=247985453 instance=ExtResource("1_v1ysr")]
 position = Vector2(40, 0)
-mass = 5.0
-gravity_scale = 0.0
-linear_damp = 3.0
-script = ExtResource("1_jk3by")
-engine_force = 4000.0
-brake_force = 600.0
-max_steer_angle = 35.0
-steer_speed = 5.0
-turn_torque = 8000.0
-lateral_grip = 200.0
-sprite_fl = NodePath("front_wheel/left")
-sprite_fr = NodePath("front_wheel/right")
-angular_damping = 30.0
-align_strength = 400.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Engine" unique_id=68373541]
-scale = Vector2(0.5, 0.25)
-texture = ExtResource("2_jk3by")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Engine" unique_id=1602900004]
-shape = SubResource("RectangleShape2D_d45l8")
-
-[node name="front_wheel" type="Node2D" parent="Engine" unique_id=81977046]
-
-[node name="left" type="Sprite2D" parent="Engine/front_wheel" unique_id=325028265]
-position = Vector2(32, -16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("2_jk3by")
-
-[node name="right" type="Sprite2D" parent="Engine/front_wheel" unique_id=319079405]
-position = Vector2(32, 16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("2_jk3by")
-
-[node name="Tiller" type="RigidBody2D" parent="." unique_id=1732658900 node_paths=PackedStringArray("sprite_rl", "sprite_rr")]
+[node name="Tiller" parent="." unique_id=576775245 instance=ExtResource("2_jk3by")]
 position = Vector2(-80, 0)
-mass = 2.0
-gravity_scale = 0.0
-linear_damp = 3.0
-script = ExtResource("3_v1ysr")
-sprite_rl = NodePath("rear_wheel/left")
-sprite_rr = NodePath("rear_wheel/right")
 
-[node name="Sprite2D" type="Sprite2D" parent="Tiller" unique_id=2069428789]
-scale = Vector2(1, 0.25)
-texture = ExtResource("2_jk3by")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tiller" unique_id=754576228]
-shape = SubResource("RectangleShape2D_qcxwf")
-
-[node name="rear_wheel" type="Node2D" parent="Tiller" unique_id=464369262]
-
-[node name="left" type="Sprite2D" parent="Tiller/rear_wheel" unique_id=310450566]
-position = Vector2(-64, -16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("2_jk3by")
-
-[node name="right" type="Sprite2D" parent="Tiller/rear_wheel" unique_id=1111196795]
-position = Vector2(-64, 16)
-scale = Vector2(0.2, 0.1)
-texture = ExtResource("2_jk3by")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1073210494 node_paths=PackedStringArray("engine")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1073210494]
 script = ExtResource("4_v1ysr")
-engine = NodePath("../Engine")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=445928272]
 offset_right = 259.0

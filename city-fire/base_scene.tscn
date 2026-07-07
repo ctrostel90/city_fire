@@ -1,11 +1,20 @@
 [gd_scene format=3 uid="uid://c7m6pvuoateg3"]
 
-[ext_resource type="PackedScene" uid="uid://cg8qdvo5wpnbs" path="res://fire_truck.tscn" id="1_57xsf"]
+[ext_resource type="PackedScene" uid="uid://bwhvr0ub78ubp" path="res://front_wheel_drive_car.tscn" id="1_57xsf"]
+[ext_resource type="PackedScene" uid="uid://bgryf8rfkhje3" path="res://tiller.tscn" id="2_qcxwf"]
 
 [node name="Node2D" type="Node2D" unique_id=901550048]
 
-[node name="FireTruck" parent="." unique_id=803625039 instance=ExtResource("1_57xsf")]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1062867792]
 position = Vector2(329, 154)
-
-[node name="Camera2D" type="Camera2D" parent="FireTruck" unique_id=1062867792]
 zoom = Vector2(0.5, 0.5)
+
+[node name="Engine" parent="." unique_id=247985453 instance=ExtResource("1_57xsf")]
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Engine" unique_id=1261593171]
+position = Vector2(-28, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../Tiller")
+
+[node name="Tiller" parent="." unique_id=576775245 instance=ExtResource("2_qcxwf")]
+position = Vector2(-120, 0)

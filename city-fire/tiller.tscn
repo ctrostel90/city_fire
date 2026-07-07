@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bgryf8rfkhje3"]
+
+[ext_resource type="Script" uid="uid://dqsd8joarxdhl" path="res://no_ai/tiller_controller.gd" id="1_544ut"]
+[ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="2_ovek4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcxwf"]
+size = Vector2(128, 32)
+
+[node name="Tiller" type="RigidBody2D" unique_id=576775245 node_paths=PackedStringArray("wheel_fr", "wheel_fl")]
+mass = 10.0
+gravity_scale = 0.0
+linear_damp = 3.0
+script = ExtResource("1_544ut")
+wheel_fr = NodePath("rear_wheel/left")
+wheel_fl = NodePath("rear_wheel/right")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1562302927]
+scale = Vector2(1, 0.25)
+texture = ExtResource("2_ovek4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1352136146]
+shape = SubResource("RectangleShape2D_qcxwf")
+
+[node name="rear_wheel" type="Node2D" parent="." unique_id=1383502136]
+
+[node name="left" type="Sprite2D" parent="rear_wheel" unique_id=499992950]
+position = Vector2(-64, -16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("2_ovek4")
+
+[node name="right" type="Sprite2D" parent="rear_wheel" unique_id=232619168]
+position = Vector2(-64, 16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("2_ovek4")

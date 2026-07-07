@@ -1,4 +1,4 @@
-class_name TillerController
+class_name TillerControllerAI
 extends RigidBody2D
 ## TillerRearController2D.gd
 ##

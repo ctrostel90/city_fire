@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://bwhvr0ub78ubp"]
+
+[ext_resource type="Script" uid="uid://l1nx7ic2cwnu" path="res://no_ai/car_controller.gd" id="1_7c2h4"]
+[ext_resource type="Texture2D" uid="uid://cwrfjs8ivdjdu" path="res://icon.svg" id="2_7lc6s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d45l8"]
+size = Vector2(64, 32)
+
+[node name="Engine" type="RigidBody2D" unique_id=247985453 node_paths=PackedStringArray("wheel_fr", "wheel_fl")]
+mass = 5.0
+gravity_scale = 0.0
+linear_damp = 3.0
+script = ExtResource("1_7c2h4")
+wheel_fr = NodePath("front_wheel/left")
+wheel_fl = NodePath("front_wheel/right")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=77287035]
+scale = Vector2(0.5, 0.25)
+texture = ExtResource("2_7lc6s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2058187781]
+shape = SubResource("RectangleShape2D_d45l8")
+
+[node name="front_wheel" type="Node2D" parent="." unique_id=1300754752]
+
+[node name="left" type="Sprite2D" parent="front_wheel" unique_id=406144825]
+position = Vector2(32, -16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("2_7lc6s")
+
+[node name="right" type="Sprite2D" parent="front_wheel" unique_id=792526818]
+position = Vector2(32, 16)
+scale = Vector2(0.2, 0.1)
+texture = ExtResource("2_7lc6s")
