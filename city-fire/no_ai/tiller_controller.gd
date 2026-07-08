@@ -25,7 +25,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var steering_input := Input.get_axis("tiller_right", "tiller_left")
-	var brake_input := Input.get_action_strength("braking")
 
 	var forward := transform.x
 	var right_dir := transform.y
@@ -38,7 +37,7 @@ func _physics_process(delta: float) -> void:
 	_current_steer_angle = move_toward(_current_steer_angle, steering_input, steer_speed * delta)
 
 	var desired_radius = min_turn_radius / max(abs(_current_steer_angle), 0.0001)
-	angular_velocity = signf(_current_steer_angle) * (forward_speed / desired_radius)
+	angular_velocity = signf(-_current_steer_angle) * (forward_speed / desired_radius)
 
 	wheel_fr.rotation = deg_to_rad(_current_steer_angle * max_steer_angle)
 	wheel_fl.rotation = deg_to_rad(_current_steer_angle * max_steer_angle)
