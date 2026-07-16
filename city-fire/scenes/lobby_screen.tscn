@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://44xo0k61m04c"]
+
+[node name="LobbyScreen" type="CanvasLayer" unique_id=956433168]
+
+[node name="UI" type="MarginContainer" parent="." unique_id=328636183]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -381.0
+offset_top = -279.0
+offset_right = 381.0
+offset_bottom = 279.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Vbox" type="VBoxContainer" parent="UI" unique_id=530574905]
+layout_mode = 2
+
+[node name="Status" type="HBoxContainer" parent="UI/Vbox" unique_id=1276233665]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Vbox/Status" unique_id=1948900836]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Status Info"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Vbox" unique_id=1877932562]
+layout_mode = 2
+
+[node name="StartHost" type="Button" parent="UI/Vbox" unique_id=2047255603]
+layout_mode = 2
+text = "Host
+
+"
+
+[node name="IP" type="HBoxContainer" parent="UI/Vbox" unique_id=2131481205]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Vbox/IP" unique_id=604218830]
+layout_mode = 2
+text = "Address:"
+
+[node name="Value" type="LineEdit" parent="UI/Vbox/IP" unique_id=1669825809]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "localhost:40921"
+
+[node name="Connect" type="Button" parent="UI/Vbox" unique_id=874190122]
+layout_mode = 2
+text = "Connect
+
+"
