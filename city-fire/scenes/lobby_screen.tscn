@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://44xo0k61m04c"]
 
+[ext_resource type="Script" uid="uid://bkxs3q1lms7ih" path="res://scripts/lobby_ui.gd" id="1_wbad2"]
+
 [node name="LobbyScreen" type="CanvasLayer" unique_id=956433168]
+script = ExtResource("1_wbad2")
 
 [node name="UI" type="MarginContainer" parent="." unique_id=328636183]
 anchors_preset = 8
@@ -49,8 +52,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "localhost:40921"
 
+[node name="PlayerName" type="HBoxContainer" parent="UI/Vbox" unique_id=1325785282]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Vbox/PlayerName" unique_id=680330281]
+layout_mode = 2
+text = "Player Name"
+
+[node name="Value" type="LineEdit" parent="UI/Vbox/PlayerName" unique_id=1369410708]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Player Name"
+
 [node name="Connect" type="Button" parent="UI/Vbox" unique_id=874190122]
 layout_mode = 2
 text = "Connect
 
 "
+
+[connection signal="pressed" from="UI/Vbox/StartHost" to="." method="_start_host_pressed"]
+[connection signal="text_submitted" from="UI/Vbox/IP/Value" to="." method="_new_ip_submitted"]
+[connection signal="text_submitted" from="UI/Vbox/PlayerName/Value" to="." method="_player_info_submitted"]
+[connection signal="pressed" from="UI/Vbox/Connect" to="." method="_connect_pressed"]
